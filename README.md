@@ -4,3 +4,16 @@
 2. добавить в класс NodeTree в конструкторе определять left, right;
 3. сделать классы шаблоными;
 4. сделать тесты к методам класса;
+## лекци бинарнные деревья. обход
+
+// ссылка на функцию, принимающую агрумент и возвращающая void
+using Func = void(*)(int x)
+
+void print_sqr(int x) {cout << x*x}
+print_array2(a,N []// функция принимает список глобальных переменных,(int x), print_sqr) 
+
+using FuncX = void(*)(int& x)
+
+ListNode( T data):
+//список инициализации
+data(data1), next(nullptr), prev(nullptr) {}
