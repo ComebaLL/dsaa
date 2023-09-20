@@ -2,58 +2,38 @@
 /* @author Kuvykin Nikita */
 public class Main {
     public static void main(String[] args) {
-        BinaryTree tree = new BinaryTree();
+                BinaryTree<Integer> intTree = new BinaryTree<>();
 
-        // Добавляем элементы в дерево
-        tree.insert(50);
-        tree.insert(30);
-        tree.insert(70);
-        tree.insert(20);
-        tree.insert(40);
-        tree.insert(60);
-        tree.insert(80);
+                intTree.insert(10);
+                intTree.insert(5);
+                intTree.insert(15);
+                intTree.insert(3);
+                intTree.insert(7);
 
-        // Выводим изначальное дерево
-        System.out.println("Изначальное дерево:");
-        tree.inOrderTraversal(); // Выводим элементы в порядке возрастания
-        System.out.println("\n");
+                // Подсчет узлов в дереве
+                System.out.println("Количество узлов в дереве: " + intTree.countNodes());
+                // Подсчет глубины дерева
+                System.out.println("Глубина дерева: " + intTree.depth());
 
-        int nodeToDelete = 30;
+                // Выводим изначальное дерево
+                System.out.println("Изначальное дерево:");
+                intTree.inOrderTraversal(); // Выводим элементы в порядке возрастания
+                System.out.println("\n");
 
-        // Удаляем узел со значением 30 обычным способом
-        tree.delete(nodeToDelete);
+                int nodeToDelete = 5;
+
+                // Удаляем узел со значением 30 обычным способом
+                intTree.delete(nodeToDelete);
 
 
-        // Выводим дерево после удаления
-        System.out.println("Дерево после удаления узла со значением " + nodeToDelete + " обычным способом:");
-        tree.inOrderTraversal();
-        System.out.println("\n");
+                // Выводим дерево после удаления
+                System.out.println("Дерево после удаления узла со значением " + nodeToDelete + " обычным способом:");
+                intTree.inOrderTraversal();
+                System.out.println("\n");
 
-        /*
-        // Восстанавливаем изначальное дерево
-        tree = new BinaryTree();
-        tree.insert(50);
-        tree.insert(30);
-        tree.insert(70);
-        tree.insert(20);
-        tree.insert(40);
-        tree.insert(60);
-        tree.insert(80);
+                // Удаление дерева
+                intTree.deleteTree();
+                System.out.println("Дерево удалено.");
 
-        // Удаляем узел со значением 30 рекурсивным способом
-        tree.deleteRec(nodeToDelete, 30);
-
-        // Выводим дерево после удаления
-        System.out.println("Дерево после удаления узла со значением " + nodeToDelete + " рекурсивным способом:");
-        tree.inOrderTraversal();
-
-         */
     }
 }
-
-/*           50
-           /   \
-          30    70
-         / \   /  \
-        20 40 60 80
- */

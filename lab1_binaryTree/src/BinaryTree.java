@@ -1,7 +1,7 @@
-/* class binary tree */
+/* class binary search tree */
 /* @author Kuvykin Nikita */
-class BinaryTree {
-    NodeTree root;
+class BinaryTree<T extends Comparable<T>> {
+    NodeTree<T> root;
 
     // Конструктор для создания пустого дерева
     public BinaryTree() {
@@ -9,23 +9,23 @@ class BinaryTree {
     }
 
     // Метод для добавления узла в дерево
-    public void insert(int data) {
+    public void insert(T data) {
         root = insertRec(root, data);
     }
 
     // Рекурсивный метод для вставки узла в дерево
-    private NodeTree insertRec(NodeTree root, int data) {
+    private NodeTree<T> insertRec(NodeTree<T> root, T data) {
         if (root == null) {
-            root = new NodeTree(data);
+            root = new NodeTree<>(data);
             return root;
         }
 
         // Рекурсивно идем влево, если значение меньше корневого узла
-        if (data < root.data) {
+        if (data.compareTo(root.data) < 0) {
             root.left = insertRec(root.left, data);
         }
         // Рекурсивно идем вправо, если значение больше или равно корневому узлу
-        else if (data >= root.data) {
+        else if (data.compareTo(root.data) >= 0) {
             root.right = insertRec(root.right, data);
         }
 
@@ -33,8 +33,8 @@ class BinaryTree {
     }
 
     // Вспомогательный метод для поиска наименьшего элемента в дереве
-    private int minValue(NodeTree root) {
-        int minValue = root.data;
+    private T minValue(NodeTree<T> root) {
+        T minValue = root.data;
         while (root.left != null) {
             minValue = root.left.data;
             root = root.left;
@@ -43,18 +43,18 @@ class BinaryTree {
     }
 
     // Рекурсивный метод для удаления узла с заданным значением из дерева
-    private NodeTree deleteRec(NodeTree root, int data) {
+    private NodeTree<T> deleteRec(NodeTree<T> root, T data) {
         // Если дерево пусто, возвращаем null
         if (root == null) {
             return root;
         }
 
         // Рекурсивно идем влево, если значение меньше корневого узла
-        if (data < root.data) {
+        if (data.compareTo(root.data) < 0) {
             root.left = deleteRec(root.left, data);
         }
         // Рекурсивно идем вправо, если значение больше корневого узла
-        else if (data > root.data) {
+        else if (data.compareTo(root.data) > 0) {
             root.right = deleteRec(root.right, data);
         }
         // Если узел с заданным значением найден
@@ -77,7 +77,7 @@ class BinaryTree {
     }
 
     // Метод для удаления узла с заданным значением из дерева
-    public void delete(int data) {
+    public void delete(T data) {
         root = deleteRec(root, data);
     }
 
@@ -87,7 +87,7 @@ class BinaryTree {
     }
 
     // Рекурсивный метод для обхода в порядке возрастания и вывода элементов
-    private void inOrderTraversal(NodeTree node) {
+    private void inOrderTraversal(NodeTree<T> node) {
         if (node != null) {
             // Сначала обходим левое поддерево
             inOrderTraversal(node.left);
@@ -100,5 +100,43 @@ class BinaryTree {
         }
     }
 
+    // Подсчет кол-во узлов в дереве
+    public int countNodes() {
+        return countNodes(root);
+    }
+
+    // Рекурсивный метод для подсчета количества узлов в дереве
+    private int countNodes(NodeTree<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        // Количество узлов в дереве равно 1 (текущий узел) плюс сумма количества узлов в левом и правом поддеревьях
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+
+    // Метод для удаления всего дерева путем обнуления корневого узла
+    public void deleteTree() {
+        root = null;
+    }
+
+    public int depth() {
+        return depth(root);
+    }
+
+    // Метод для определения глубины дерева
+    private int depth(NodeTree<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        // Глубина дерева равна 1 (текущий узел) плюс максимальная глубина из левого и правого поддеревьев
+        int leftDepth = depth(node.left);
+        int rightDepth = depth(node.right);
+        return 1 + Math.max(leftDepth, rightDepth);
+    }
+
+
+
+
 }
+
 
