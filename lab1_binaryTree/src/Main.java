@@ -1,3 +1,5 @@
+import java.util.List;
+
 /* lab 1 binary tree*/
 /* @author Kuvykin Nikita */
 public class Main {
@@ -31,9 +33,12 @@ public class Main {
                 intTree.inOrderTraversal();
                 System.out.println("\n");
 
-                // Удаление дерева
-                intTree.deleteTree();
-                System.out.println("Дерево удалено.");
+                intTree.incrementTreeValues();
+
+
+                List<Integer> result = intTree.toArrayInOrder();
+                System.out.println("Массив на основе обхода LNR: " + result);
+
 
     }
 }

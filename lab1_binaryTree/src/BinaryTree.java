@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /* class binary search tree */
 /* @author Kuvykin Nikita */
 class BinaryTree<T extends Comparable<T>> {
@@ -86,7 +89,7 @@ class BinaryTree<T extends Comparable<T>> {
         inOrderTraversal(root);
     }
 
-    // Рекурсивный метод для обхода в порядке возрастания и вывода элементов
+    // Рекурсивный метод для обхода в порядке возрастания и вывода элементов/ обход LNR
     private void inOrderTraversal(NodeTree<T> node) {
         if (node != null) {
             // Сначала обходим левое поддерево
@@ -114,10 +117,6 @@ class BinaryTree<T extends Comparable<T>> {
         return 1 + countNodes(node.left) + countNodes(node.right);
     }
 
-    // Метод для удаления всего дерева путем обнуления корневого узла
-    public void deleteTree() {
-        root = null;
-    }
 
     public int depth() {
         return depth(root);
@@ -134,7 +133,120 @@ class BinaryTree<T extends Comparable<T>> {
         return 1 + Math.max(leftDepth, rightDepth);
     }
 
+    // обход NLR
+    public void preOrderTraversal() {
+        preOrderTraversal(root);
+    }
 
+    private void preOrderTraversal(NodeTree<T> node) {
+        if (node != null) {
+            // Сначала выводим значение текущего узла
+            System.out.print(node.data + " ");
+
+            // Затем обходим левое поддерево
+            preOrderTraversal(node.left);
+
+            // Затем обходим правое поддерево
+            preOrderTraversal(node.right);
+        }
+    }
+
+    // обход LRN
+    public void postOrderTraversal() {
+        postOrderTraversal(root);
+    }
+
+    private void postOrderTraversal(NodeTree<T> node) {
+        if (node != null) {
+            // Сначала обходим левое поддерево
+            postOrderTraversal(node.left);
+
+            // Затем обходим правое поддерево
+            postOrderTraversal(node.right);
+
+            // Затем выводим значение текущего узла
+            System.out.print(node.data + " ");
+        }
+    }
+
+    // преращение в массив на основе LNR
+    public List<T> toArrayInOrder() {
+        List<T> result = new ArrayList<>();
+        toArrayInOrder(root, result);
+        return result;
+    }
+
+    private void toArrayInOrder(NodeTree<T> node, List<T> result) {
+        if (node != null) {
+            // Сначала обходим левое поддерево
+            toArrayInOrder(node.left, result);
+
+            // Затем добавляем значение текущего узла в массив
+            result.add(node.data);
+
+            // Затем обходим правое поддерево
+            toArrayInOrder(node.right, result);
+        }
+    }
+
+    // удаление дерева обходом LNR
+    public void deleteTreeInOrder() {
+        deleteTreeInOrder(root);
+        root = null; // Устанавливаем корень в null, чтобы полностью удалить дерево
+    }
+
+    private void deleteTreeInOrder(NodeTree<T> node) {
+        if (node != null) {
+            // Сначала обходим левое поддерево
+            deleteTreeInOrder(node.left);
+
+            // Затем обходим правое поддерево
+            deleteTreeInOrder(node.right);
+
+            // Удаляем текущий узел
+            node.left = null;
+            node.right = null;
+        }
+    }
+
+    // увеличение каждого узла на еденицу
+    public void incrementTreeValues() {
+        incrementTreeValues(root);
+    }
+
+    private void incrementTreeValues(NodeTree<T> node) {
+        if (node != null) {
+            // Сначала обходим левое поддерево
+            incrementTreeValues(node.left);
+
+            // Увеличиваем значение текущего узла на единицу
+            node.data = (T) Integer.valueOf(((Integer)node.data).intValue() + 1);
+
+            // Затем обходим правое поддерево
+            incrementTreeValues(node.right);
+        }
+    }
+
+    // проверка есть ли значение в дереве или нет
+    public boolean contains(T data) {
+        return contains(root, data);
+    }
+
+    private boolean contains(NodeTree<T> node, T data) {
+        if (node == null) {
+            return false;
+        }
+
+        int compareResult = data.compareTo(node.data);
+
+        if (compareResult == 0) {
+            return true; // Значение найдено
+        } else if (compareResult < 0) {
+            return contains(node.left, data); // Идем влево
+        } else {
+            return contains(node.right, data); // Идем вправо
+        }
+    }
 
 
 }
