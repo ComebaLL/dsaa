@@ -140,6 +140,37 @@ log2(2^h) <= log2(n) < log2(2^h+1)
 
    Итераторы
    адресная арифметике *(a+1)
+
+### Лекция 06.10 
+##  Итераторы
+   пример:
+   fibomaciITerator( ULL f1_, f2_):    f1(f1_), f2(f2_){}
+    // префиксный оператор
+    fibomaciITerator operator++(){
+     next();
+     return *this;
+    }
+    // постфиксный оператор
+    fibomaciITerator operator++(int){
+    fibomaciOTeratot tmp( f1_ f1, f2_ f2);
+    next();
+    return *this;
+    }
+
+    // не равно
+    bool operator !=(const fibomanciITerator&) const = default;
+# Итераторы класса vector в C++
+
+# придумать варианты использования функци :
+  for_each
+  any_of
+  //todo
+
+  
+    
+     
+    
+    
    
 
    
