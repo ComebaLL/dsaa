@@ -236,6 +236,7 @@ public class BinaryTreeTest {
         // Ожидаем, что дерево не будет совершенным
         assertFalse(tree.isPerfectTree());
     }
+    //213
 
 
 
