@@ -36,7 +36,7 @@ class BinaryTree<T extends Comparable<T>> {
     }
 
     // Вспомогательный метод для поиска наименьшего элемента в дереве
-    private T minValue(NodeTree<T> root) {
+    protected T minValue(NodeTree<T> root) {
         T minValue = root.data;
         while (root.left != null) {
             minValue = root.left.data;
@@ -125,12 +125,12 @@ class BinaryTree<T extends Comparable<T>> {
     // Метод для определения глубины дерева
     private int depth(NodeTree<T> node) {
         if (node == null) {
-            return 0;
+            return -1;
         }
         // Глубина дерева равна 1 (текущий узел) плюс максимальная глубина из левого и правого поддеревьев
         int leftDepth = depth(node.left);
         int rightDepth = depth(node.right);
-        return 1 + Math.max(leftDepth, rightDepth);
+        return 0 + Math.max(leftDepth, rightDepth);
     }
 
     // обход NLR
@@ -247,6 +247,74 @@ class BinaryTree<T extends Comparable<T>> {
             return contains(node.right, data); // Идем вправо
         }
     }
+
+    // Метод для проверки, что дерево вырожденное
+    public boolean isDegenerateTree() {
+        return isDegenerateTree(root);
+    }
+
+    private boolean isDegenerateTree(NodeTree<T> node) {
+        if (node == null) {
+            return true; // Пустое дерево считается вырожденным
+        }
+
+        // Проверяем, что у узла есть только один непустой потомок
+        boolean leftIsNotNull = node.left != null;
+        boolean rightIsNotNull = node.right != null;
+
+        if (leftIsNotNull && rightIsNotNull) {
+            return false; // Узел имеет два непустых потомка, не вырожденное дерево
+        }
+
+        // Рекурсивно проверяем левого и правого потомков
+        return isDegenerateTree(node.left) && isDegenerateTree(node.right);
+    }
+
+    // Метод для проверки, что дерево Complete
+    public boolean isCompleteTree() {
+        int nodeCount = countNodes(root);
+        return isCompleteTree(root, 0, nodeCount);
+    }
+
+    private boolean isCompleteTree(NodeTree<T> node, int index, int nodeCount) {
+        if (node == null) {
+            return true; // Пустое дерево считается завершенным
+        }
+
+        if (index >= nodeCount) {
+            return false; // Индекс больше или равен общему количеству узлов, не завершенное дерево
+        }
+
+        return isCompleteTree(node.left, 2 * index + 1, nodeCount) && isCompleteTree(node.right, 2 * index + 2, nodeCount);
+    }
+
+    // Метод для проверки, что дерево Perfect
+    public boolean isPerfectTree() {
+        int depth = depth(root);
+        return isPerfectTree(root, depth, 0);
+    }
+
+    private boolean isPerfectTree(NodeTree<T> node, int depth, int level) {
+        if (node == null) {
+            return true; // Пустое дерево считается совершенным
+        }
+
+        if (node.left == null && node.right == null) {
+            return depth == level + 1; // Узел на нижнем уровне
+        }
+
+        if (node.left == null || node.right == null) {
+            return false; // Узел имеет только одного потомка
+        }
+
+        return isPerfectTree(node.left, depth, level + 1) && isPerfectTree(node.right, depth, level + 1);
+    }
+
+
+
+
+
+
 
 
 }
