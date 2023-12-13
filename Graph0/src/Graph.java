@@ -4,11 +4,11 @@
 import java.util.*;
 
 // Класс, представляющий граф
-public class Graph {
+public class Graph<T> {
     // Множество вершин
-    private Set<Vertex> vertices;
+    private Set<Vertex<T>> vertices;
     // Множество ребер
-    private Set<Edge> edges;
+    private Set<Edge<T>> edges;
 
     // Конструктор
     public Graph() {
@@ -17,21 +17,21 @@ public class Graph {
     }
 
     // Внутренний класс, представляющий вершину
-    private class Vertex {
-        private String label; // Метка вершины
+    private class Vertex<T> {
+        private T label; // Метка вершины
 
-        public Vertex(String label) {
+        public Vertex(T label) {
             this.label = label;
         }
     }
 
     // Внутренний класс, представляющий ребро
-    private class Edge {
-        private Vertex start; // Начальная вершина
-        private Vertex end;   // Конечная вершина
+    private class Edge<T> {
+        private Vertex<T> start; // Начальная вершина
+        private Vertex<T> end;   // Конечная вершина
         private int weight;    // Вес ребра
 
-        public Edge(Vertex start, Vertex end, int weight) {
+        public Edge(Vertex<T> start, Vertex<T> end, int weight) {
             this.start = start;
             this.end = end;
             this.weight = weight;
@@ -39,25 +39,25 @@ public class Graph {
     }
 
     // Вставка новой вершины
-    public void insertVertex(String label) {
-        Vertex newVertex = new Vertex(label);
+    public void insertVertex(T label) {
+        Vertex<T> newVertex = new Vertex<>(label);
         vertices.add(newVertex);
     }
 
     // Вставка нового ребра
-    public void insertEdge(String startLabel, String endLabel, int weight) {
-        Vertex startVertex = findVertex(startLabel);
-        Vertex endVertex = findVertex(endLabel);
+    public void insertEdge(T startLabel, T endLabel, int weight) {
+        Vertex<T> startVertex = findVertex(startLabel);
+        Vertex<T> endVertex = findVertex(endLabel);
 
         if (startVertex != null && endVertex != null && !hasEdge(startVertex, endVertex)) {
-            Edge newEdge = new Edge(startVertex, endVertex, weight);
+            Edge<T> newEdge = new Edge<>(startVertex, endVertex, weight);
             edges.add(newEdge);
         }
     }
 
     // Удаление вершины
-    public void deleteVertex(String label) {
-        Vertex vertexToRemove = findVertex(label);
+    public void deleteVertex(T label) {
+        Vertex<T> vertexToRemove = findVertex(label);
 
         if (vertexToRemove != null) {
             vertices.remove(vertexToRemove);
@@ -66,20 +66,20 @@ public class Graph {
     }
 
     // Удаление ребра
-    public void deleteEdge(String startLabel, String endLabel) {
-        Vertex startVertex = findVertex(startLabel);
-        Vertex endVertex = findVertex(endLabel);
+    public void deleteEdge(T startLabel, T endLabel) {
+        Vertex<T> startVertex = findVertex(startLabel);
+        Vertex<T> endVertex = findVertex(endLabel);
 
         edges.removeIf(edge -> edge.start == startVertex && edge.end == endVertex);
     }
 
     // Получение смежных вершин
-    public List<String> getNeighbors(String label) {
-        Vertex vertex = findVertex(label);
-        List<String> neighbors = new ArrayList<>();
+    public List<T> getNeighbors(T label) {
+        Vertex<T> vertex = findVertex(label);
+        List<T> neighbors = new ArrayList<>();
 
         if (vertex != null) {
-            for (Edge edge : edges) {
+            for (Edge<T> edge : edges) {
                 if (edge.start == vertex) {
                     neighbors.add(edge.end.label);
                 } else if (edge.end == vertex) {
@@ -92,11 +92,11 @@ public class Graph {
     }
 
     // Получение веса ребра
-    public int getWeight(String startLabel, String endLabel) {
-        Vertex startVertex = findVertex(startLabel);
-        Vertex endVertex = findVertex(endLabel);
+    public int getWeight(T startLabel, T endLabel) {
+        Vertex<T> startVertex = findVertex(startLabel);
+        Vertex<T> endVertex = findVertex(endLabel);
 
-        for (Edge edge : edges) {
+        for (Edge<T> edge : edges) {
             if ((edge.start == startVertex && edge.end == endVertex) || (edge.start == endVertex && edge.end == startVertex)) {
                 return edge.weight;
             }
@@ -118,7 +118,7 @@ public class Graph {
         }
 
         // Заполняем матрицу значениями весов ребер
-        for (Edge edge : edges) {
+        for (Edge<T> edge : edges) {
             int i = getIndex(edge.start);
             int j = getIndex(edge.end);
             adjacencyMatrix[i][j] = edge.weight;
@@ -129,8 +129,8 @@ public class Graph {
     }
 
     // Вспомогательный метод для поиска вершины по метке
-    protected Vertex findVertex(String label) {
-        for (Vertex vertex : vertices) {
+    protected Vertex<T> findVertex(T label) {
+        for (Vertex<T> vertex : vertices) {
             if (vertex.label.equals(label)) {
                 return vertex;
             }
@@ -139,9 +139,9 @@ public class Graph {
     }
 
     // Вспомогательный метод для получения индекса вершины в матрице
-    private int getIndex(Vertex vertex) {
+    private int getIndex(Vertex<T> vertex) {
         int i = 0;
-        for (Vertex v : vertices) {
+        for (Vertex<T> v : vertices) {
             if (v == vertex) {
                 return i;
             }
@@ -151,17 +151,15 @@ public class Graph {
     }
 
     // Вспомогательный метод для проверки наличия ребра между двумя вершинами
-    private boolean hasEdge(Vertex start, Vertex end) {
-        for (Edge edge : edges) {
+    private boolean hasEdge(Vertex<T> start, Vertex<T> end) {
+        for (Edge<T> edge : edges) {
             if ((edge.start == start && edge.end == end) || (edge.start == end && edge.end == start)) {
                 return true;
             }
         }
         return false;
     }
-
-
-
 }
+
 
 
