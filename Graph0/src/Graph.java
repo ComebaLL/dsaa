@@ -159,6 +159,38 @@ public class Graph<T> {
         }
         return false;
     }
+
+    // Обход графа в ширину 
+    public List<T> bfs(T startLabel) {
+        List<T> result = new ArrayList<>();
+        Set<Vertex<T>> visited = new HashSet<>();
+        Queue<Vertex<T>> queue = new LinkedList<>();
+
+        Vertex<T> startVertex = findVertex(startLabel);
+
+        if (startVertex == null) {
+            return result; // Вершина не найдена
+        }
+
+        queue.add(startVertex);
+        visited.add(startVertex);
+
+        while (!queue.isEmpty()) {
+            Vertex<T> currentVertex = queue.poll();
+            result.add(currentVertex.label);
+
+            for (T neighborLabel : getNeighbors(currentVertex.label)) {
+                Vertex<T> neighborVertex = findVertex(neighborLabel);
+
+                if (neighborVertex != null && !visited.contains(neighborVertex)) {
+                    queue.add(neighborVertex);
+                    visited.add(neighborVertex);
+                }
+            }
+        }
+
+        return result;
+    }
 }
 
 

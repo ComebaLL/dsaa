@@ -1,4 +1,8 @@
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class GraphTest {
@@ -55,6 +59,29 @@ public class GraphTest {
         // Проверка значений матрицы смежности
         assertEquals(0, adjacencyMatrix[0][1]);
         assertEquals(0, adjacencyMatrix[1][0]);
+
+        // Добавляем вершины
+        graph.insertVertex("A");
+        graph.insertVertex("B");
+        graph.insertVertex("C");
+        graph.insertVertex("D");
+        graph.insertVertex("E");
+
+        // Добавляем ребра
+        graph.insertEdge("A", "B", 1);
+        graph.insertEdge("A", "C", 1);
+        graph.insertEdge("B", "D", 1);
+        graph.insertEdge("C", "E", 1);
+
+        // Обход в ширину, начиная с вершины "A"
+        List<String> bfsResult = graph.bfs("A");
+
+        // Ожидаемый результат: [A, B, C, D, E]
+        System.out.println("BFS result: " + bfsResult);
+
+        // Проверяем, что результат соответствует ожидаемому
+        assert bfsResult.equals(Arrays.asList("A", "B", "C", "D", "E")) : "Test failed!";
+        System.out.println("Test passed!");
     }
 }
 
