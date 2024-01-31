@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 /* class binary search tree */
 /* @author Kuvykin Nikita */
@@ -310,13 +312,64 @@ class BinaryTree<T extends Comparable<T>> {
         return isPerfectTree(node.left, depth, level + 1) && isPerfectTree(node.right, depth, level + 1);
     }
 
+    // Метод для копирования бинарного дерева
+    public BinaryTree<T> copyTree() {
+        BinaryTree<T> newTree = new BinaryTree<>();
+        newTree.root = copyTree(root);
+        return newTree;
+    }
 
+    // Вспомогательный рекурсивный метод для копирования дерева
+    private NodeTree<T> copyTree(NodeTree<T> originalNode) {
+        if (originalNode == null) {
+            return null; // Если узел пуст, возвращаем null
+        }
 
+        // Копируем значение текущего узла
+        NodeTree<T> newNode = new NodeTree<>(originalNode.data);
 
+        // Рекурсивно копируем левое и правое поддеревья
+        newNode.left = copyTree(originalNode.left);
+        newNode.right = copyTree(originalNode.right);
 
+        return newNode;
+    }
 
+    // Внутренний класс для итератора дерева
+    private class TreeIterator implements Iterator<T> {
+        private Stack<NodeTree<T>> stack;
 
+        public TreeIterator() {
+            stack = new Stack<>();
+            pushLeft(root);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public T next() {
+            NodeTree<T> current = stack.pop();
+            pushLeft(current.right);
+            return current.data;
+        }
+
+        private void pushLeft(NodeTree<T> node) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+        }
+    }
+
+    // Метод для получения итератора дерева
+    public Iterator<T> iterator() {
+        return new TreeIterator();
+    }
 
 }
+
 
 

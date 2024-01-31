@@ -3,7 +3,7 @@ Heap class
  */
 public class Main {
     public static void main(String[] args) {
-        MinHeap minHeap = new MinHeap();
+        MinHeap<Integer> minHeap = new MinHeap<>();
 
         // Вставляем элементы в кучу
         minHeap.insert(5);
@@ -13,7 +13,7 @@ public class Main {
 
         // Извлекаем и выводим минимальные элементы на экран
         while (!minHeap.isEmpty()) {
-            int min = minHeap.extractMin();
+            Integer min = minHeap.extractMin();
             System.out.println("min el: " + min);
         }
     }

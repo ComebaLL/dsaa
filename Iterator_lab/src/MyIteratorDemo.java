@@ -1,40 +1,25 @@
 public class MyIteratorDemo {
     public static void main(String[] args) {
-        // Создаем массив строк
-        String[] dataArray = {"A", "B", "C", "D", "E"};
+        // Создаем узлы списка
+        Node<Integer> node1 = new Node<>(1);
+        Node<Integer> node2 = new Node<>(2);
+        Node<Integer> node3 = new Node<>(3);
 
-        // Создаем объект MyIterator для массива строк
-        MyIterator<String> myIterator = new MyIterator<>(dataArray);
+        // Связываем узлы, создавая связанный список: 1 -> 2 -> 3
+        node1.next = node2;
+        node2.next = node3;
 
-        // До вызова методов
-        System.out.println("Before Methods:");
-        printIteratorInfo(myIterator);
+        // Создаем связанный список
+        MyLinkedList<Integer> linkedList = new MyLinkedList<>(node1);
 
-        // Применение методов класса MyIterator
-        myIterator.begin();
-        printIteratorInfo(myIterator);
+        // Получаем итератор, указывающий на начало списка
+        MyIterator<Integer> iterator = linkedList.begin();
 
-        myIterator.next();
-        printIteratorInfo(myIterator);
-
-        myIterator.preIncrement();
-        printIteratorInfo(myIterator);
-
-        myIterator.postIncrement();
-        printIteratorInfo(myIterator);
-
-        myIterator.reset();
-        printIteratorInfo(myIterator);
-
-        myIterator.end();
-        printIteratorInfo(myIterator);
-    }
-
-    // Вспомогательный метод для вывода информации о состоянии итератора
-    private static <T> void printIteratorInfo(MyIterator<T> myIterator) {
-        System.out.println("Current Element: " + myIterator.data());
-        System.out.println("Is End: " + myIterator.isEnd());
-        System.out.println();
+        // Итерируем по списку и выводим элементы
+        while (!iterator.isEnd()) {
+            System.out.println(iterator.data());
+            iterator.next();
+        }
     }
 }
 

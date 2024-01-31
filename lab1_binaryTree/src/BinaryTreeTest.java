@@ -1,7 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -236,8 +238,97 @@ public class BinaryTreeTest {
         // Ожидаем, что дерево не будет совершенным
         assertFalse(tree.isPerfectTree());
     }
-    //213
 
+    // тест метода копирования; todo сделат ьфункции для проверки разных генераций деревьев
+    @Test
+    public void testCopyTree() {
+        // Создаем исходное дерево
+        BinaryTree<Integer> originalTree = new BinaryTree<>();
+        originalTree.insert(5);
+        originalTree.insert(3);
+        originalTree.insert(7);
+
+        // Копируем дерево
+        BinaryTree<Integer> copiedTree = originalTree.copyTree();
+
+        // Проверяем, что дерево было скопировано
+        assertNotSame(originalTree, copiedTree); // Убеждаемся, что это разные объекты
+        assertTrue(isTreeEqual(originalTree.root, copiedTree.root)); // Проверяем, что содержимое одинаково
+    }
+
+    // Тест для перфектного дерева
+    @Test
+    public void testCopyPerfectTree() {
+        // Создаем исходное перфектное дерево
+        BinaryTree<Integer> originalPerfectTree = new BinaryTree<>();
+        originalPerfectTree.insert(10);
+        originalPerfectTree.insert(5);
+        originalPerfectTree.insert(15);
+        originalPerfectTree.insert(3);
+        originalPerfectTree.insert(7);
+        originalPerfectTree.insert(12);
+        originalPerfectTree.insert(20);
+
+        // Копируем дерево
+        BinaryTree<Integer> copiedPerfectTree = originalPerfectTree.copyTree();
+
+        // Проверяем, что дерево было скопировано
+        assertNotSame(originalPerfectTree, copiedPerfectTree); // Убеждаемся, что это разные объекты
+        assertTrue(isTreeEqual(originalPerfectTree.root, copiedPerfectTree.root)); // Проверяем, что содержимое одинаково
+    }
+
+    // Тест для вырожденного дерева
+    @Test
+    public void testCopyDegenerateTree() {
+        // Создаем исходное вырожденное дерево
+        BinaryTree<Integer> originalDegenerateTree = new BinaryTree<>();
+        originalDegenerateTree.insert(5);
+        originalDegenerateTree.insert(6);
+        originalDegenerateTree.insert(7);
+
+        // Копируем дерево
+        BinaryTree<Integer> copiedDegenerateTree = originalDegenerateTree.copyTree();
+
+        // Проверяем, что дерево было скопировано
+        assertNotSame(originalDegenerateTree, copiedDegenerateTree); // Убеждаемся, что это разные объекты
+        assertTrue(isTreeEqual(originalDegenerateTree.root, copiedDegenerateTree.root)); // Проверяем, что содержимое одинаково
+    }
+
+    // Тест для завершенного дерева
+    @Test
+    public void testCopyCompleteTree() {
+        // Создаем исходное завершенное дерево
+        BinaryTree<Integer> originalCompleteTree = new BinaryTree<>();
+        originalCompleteTree.insert(10);
+        originalCompleteTree.insert(5);
+        originalCompleteTree.insert(15);
+        originalCompleteTree.insert(3);
+        originalCompleteTree.insert(7);
+        originalCompleteTree.insert(12);
+        originalCompleteTree.insert(20);
+
+        // Копируем дерево
+        BinaryTree<Integer> copiedCompleteTree = originalCompleteTree.copyTree();
+
+        // Проверяем, что дерево было скопировано
+        assertNotSame(originalCompleteTree, copiedCompleteTree); // Убеждаемся, что это разные объекты
+        assertTrue(isTreeEqual(originalCompleteTree.root, copiedCompleteTree.root)); // Проверяем, что содержимое одинаково
+    }
+
+    // Вспомогательный метод для проверки равенства двух деревьев
+    private <T extends Comparable<T>> boolean isTreeEqual(NodeTree<T> node1, NodeTree<T> node2) {
+        if (node1 == null && node2 == null) {
+            return true;
+        }
+
+        if (node1 == null || node2 == null) {
+            return false;
+        }
+
+        return node1.data.equals(node2.data) &&
+                isTreeEqual(node1.left, node2.left) &&
+                isTreeEqual(node1.right, node2.right);
+    }
 
 
 }

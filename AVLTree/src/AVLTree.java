@@ -1,12 +1,14 @@
 /* @author Kuvykin N.D CMC-21
 AVLTree class
  */
-class AVLTree {
+class AVLTree<U extends Comparable<U>> {
+
     class Node {
-        int key, height;
+        U key;
+        int height;
         Node left, right;
 
-        public Node(int key) {
+        public Node(U key) {
             this.key = key;
             this.height = 1;
         }
@@ -71,14 +73,16 @@ class AVLTree {
     }
 
     // Вставка ключа k в дерево с корнем node
-    private Node insert(Node node, int key) {
+    private Node insert(Node node, U key) {
         if (node == null) {
             return new Node(key);
         }
 
-        if (key < node.key) {
+        int compareResult = key.compareTo(node.key);
+
+        if (compareResult < 0) {
             node.left = insert(node.left, key);
-        } else if (key > node.key) {
+        } else if (compareResult > 0) {
             node.right = insert(node.right, key);
         } else {
             // Дублирующие ключи не допускаются
@@ -92,17 +96,17 @@ class AVLTree {
         int balance = getBalance(node);
 
         // Проверка нарушения баланса и восстановление
-        if (balance > 1 && key < node.left.key) {
+        if (balance > 1 && key.compareTo(node.left.key) < 0) {
             return rightRotate(node);
         }
-        if (balance < -1 && key > node.right.key) {
+        if (balance < -1 && key.compareTo(node.right.key) > 0) {
             return leftRotate(node);
         }
-        if (balance > 1 && key > node.left.key) {
+        if (balance > 1 && key.compareTo(node.left.key) > 0) {
             node.left = leftRotate(node.left);
             return rightRotate(node);
         }
-        if (balance < -1 && key < node.right.key) {
+        if (balance < -1 && key.compareTo(node.right.key) < 0) {
             node.right = rightRotate(node.right);
             return leftRotate(node);
         }
@@ -111,7 +115,7 @@ class AVLTree {
     }
 
     // Вставка ключа в AVL-дерево
-    public void insert(int key) {
+    public void insert(U key) {
         root = insert(root, key);
     }
 
@@ -130,7 +134,7 @@ class AVLTree {
         System.out.println();
     }
 
-    // Проверка сбалансированости дерева
+    // Проверка сбалансированности дерева
     public boolean isBalanced() {
         return isBalanced(root);
     }
@@ -145,5 +149,108 @@ class AVLTree {
         return Math.abs(balance) <= 1 && isBalanced(node.left) && isBalanced(node.right);
     }
 
+    // Вспомогательный метод для нахождения узла с минимальным ключом в дереве
+    private Node findMin(Node node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
+    }
+
+    // Удаление узла с ключом key из дерева с корнем node
+    private Node delete(Node node, U key) {
+        if (node == null) {
+            return node;
+        }
+
+        int compareResult = key.compareTo(node.key);
+
+        // Рекурсивное удаление в поддеревьях
+        if (compareResult < 0) {
+            node.left = delete(node.left, key);
+        } else if (compareResult > 0) {
+            node.right = delete(node.right, key);
+        } else {
+            // Узел с одним или без детей
+            if ((node.left == null) || (node.right == null)) {
+                Node temp = null;
+                if (temp == node.left) {
+                    temp = node.right;
+                } else {
+                    temp = node.left;
+                }
+
+                // Нет потомков
+                if (temp == null) {
+                    temp = node;
+                    node = null;
+                } else {
+                    // Один потомок
+                    node = temp; // Копирование содержимого
+                }
+            } else {
+                // Узел с двумя потомками
+                Node temp = findMin(node.right); // Находим узел с минимальным ключом в правом поддереве
+                node.key = temp.key; // Копируем значение минимального ключа
+                node.right = delete(node.right, temp.key); // Удаляем узел с минимальным ключом
+            }
+        }
+
+        // Если дерево состоит из одного узла, просто удаляем его
+        if (node == null) {
+            return node;
+        }
+
+        // Обновляем высоту текущего узла
+        updateHeight(node);
+
+        // Получаем баланс-фактор
+        int balance = getBalance(node);
+
+        // Проверка нарушения баланса и восстановление
+        if (balance > 1 && getBalance(node.left) >= 0) {
+            return rightRotate(node);
+        }
+        if (balance < -1 && getBalance(node.right) <= 0) {
+            return leftRotate(node);
+        }
+        if (balance > 1 && getBalance(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+        if (balance < -1 && getBalance(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+
+        return node;
+    }
+
+    // Удаление ключа из AVL-дерева
+    public void delete(U key) {
+        root = delete(root, key);
+    }
+
+    // Поиск значения в узле с ключом key в дереве с корнем node
+    private Node search(Node node, U key) {
+        if (node == null || key.equals(node.key)) {
+            return node;
+        }
+
+        int compareResult = key.compareTo(node.key);
+
+        // Рекурсивный поиск в поддеревьях
+        if (compareResult < 0) {
+            return search(node.left, key);
+        } else {
+            return search(node.right, key);
+        }
+    }
+
+    // Поиск значения в AVL-дереве
+    public Node search(U key) {
+        return search(root, key);
+    }
 }
+
 

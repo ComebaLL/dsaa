@@ -1,120 +1,54 @@
 /* Kuvykin N.D CMC-21*/
 // тесты для класса MyIterator
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class MyIteratorTest {
 
     @Test
-    public void testBegin() {
-        // Создаем итератор и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator = new MyIterator<>(data);
-
-        // Проверяем, что метод begin() устанавливает итератор на начало коллекции
-        MyIterator.begin();
-        assertEquals(1, (int)MyIterator.data());
-    }
-
-    @Test
-    public void testEnd() {
-        // Создаем итератор и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator = new MyIterator<>(data);
-
-        // Проверяем, что метод end() устанавливает итератор на конец коллекции
-        MyIterator.end();
-        assertTrue(MyIterator.isEnd());
-    }
-
-    @Test
     public void testEquals() {
-        // Создаем два итератора и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator1 = new MyIterator<>(data);
-        MyIterator<Integer> MyIterator2 = new MyIterator<>(data);
+        Node<Integer> node1 = new Node<>(1);
+        Node<Integer> node2 = new Node<>(2);
 
-        // Устанавливаем оба итератора в начало коллекции
-        MyIterator1.begin();
-        MyIterator2.begin();
+        MyIterator<Integer> iterator1 = new MyIterator<>(node1);
+        MyIterator<Integer> iterator2 = new MyIterator<>(node1);
+        MyIterator<Integer> iterator3 = new MyIterator<>(node2);
 
-        // Проверяем, что метод equals() корректно сравнивает два итератора
-        assertTrue(MyIterator1.equals(MyIterator2));
+        assertTrue(iterator1.equals(iterator2));
+        assertFalse(iterator1.equals(iterator3));
     }
 
     @Test
     public void testNotEquals() {
-        // Создаем два итератора и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator1 = new MyIterator<>(data);
-        MyIterator<Integer> MyIterator2 = new MyIterator<>(data);
+        Node<Integer> node1 = new Node<>(1);
+        Node<Integer> node2 = new Node<>(2);
 
-        // Устанавливаем один итератор в начало, а другой - в конец коллекции
-        MyIterator1.begin();
-        MyIterator2.end();
+        MyIterator<Integer> iterator1 = new MyIterator<>(node1);
+        MyIterator<Integer> iterator2 = new MyIterator<>(node1);
+        MyIterator<Integer> iterator3 = new MyIterator<>(node2);
 
-        // Проверяем, что метод notEquals() корректно сравнивает два итератора
-        assertTrue(MyIterator1.notEquals(MyIterator2));
+        assertFalse(iterator1.notEquals(iterator2));
+        assertTrue(iterator1.notEquals(iterator3));
     }
 
     @Test
-    public void testPreIncrement() {
-        // Создаем итератор и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator = new MyIterator<>(data);
+    public void testData() {
+        Node<Integer> node1 = new Node<>(1);
 
-        // Используем метод preIncrement() и проверяем, что итератор перешел к следующему элементу
-        MyIterator.preIncrement();
-        assertEquals(2, (int)MyIterator.data());
-    }
+        MyIterator<Integer> iterator = new MyIterator<>(node1);
 
-    @Test
-    public void testPostIncrement() {
-        // Создаем итератор и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator = new MyIterator<>(data);
-
-        // Используем метод postIncrement() и проверяем, что итератор перешел к следующему элементу
-        MyIterator.postIncrement();
-        assertEquals(2, (int)MyIterator.data());
+        assertEquals(Integer.valueOf(1), iterator.data());
     }
 
     @Test
     public void testNext() {
-        // Создаем итератор и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator = new MyIterator<>(data);
+        Node<Integer> node1 = new Node<>(1);
+        Node<Integer> node2 = new Node<>(2);
 
-        // Используем метод next() и проверяем, что итератор перешел к следующему элементу
-        MyIterator.next();
-        assertEquals(2, (int)MyIterator.data());
-    }
+        MyIterator<Integer> iterator = new MyIterator<>(node1);
+        iterator.next();
 
-    @Test
-    public void testReset() {
-        // Создаем итератор и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator = new MyIterator<>(data);
-
-        // Устанавливаем итератор в начало, перемещаемся к следующему элементу, затем сбрасываем его
-        MyIterator.begin();
-        MyIterator.next();
-        MyIterator.reset();
-
-        // Проверяем, что итератор вернулся в начало коллекции
-        assertEquals(1, (int)MyIterator.data());
-    }
-
-    @Test
-    public void testIsEnd() {
-        // Создаем итератор и массив данных
-        Integer[] data = {1, 2, 3, 4, 5};
-        MyIterator<Integer> MyIterator = new MyIterator<>(data);
-
-        // Устанавливаем итератор на конец коллекции
-        MyIterator.end();
-
-        // Проверяем, что метод isEnd() возвращает true
-        assertTrue(MyIterator.isEnd());
+        assertEquals(node2, iterator.getCurrentNode());
     }
 }
+

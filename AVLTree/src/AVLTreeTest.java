@@ -121,5 +121,45 @@ public class AVLTreeTest {
         assertEquals(20, avlTree.root.right.key); // Ожидаемый правый дочерний узел
         assertEquals(25, avlTree.root.right.right.key); // Ожидаемый правый дочерний узел правого дочернего узла
     }
+
+    // Тест поиска значения в узле
+    @Test
+    public void testInsertAndSearch() {
+        AVLTree<Integer> avlTree = new AVLTree<>();
+
+        avlTree.insert(5);
+        avlTree.insert(3);
+        avlTree.insert(7);
+        avlTree.insert(2);
+
+        assertTrue(avlTree.search(5) != null);
+        assertTrue(avlTree.search(3) != null);
+        assertTrue(avlTree.search(7) != null);
+        assertTrue(avlTree.search(2) != null);
+        assertNull(avlTree.search(10));
+    }
+
+    // Тест удаления значения из узла
+    @Test
+    public void testDelete() {
+        AVLTree<Integer> avlTree = new AVLTree<>();
+
+        avlTree.insert(5);
+        avlTree.insert(3);
+        avlTree.insert(7);
+        avlTree.insert(2);
+
+        // Удаляем узел с ключом 3
+        avlTree.delete(3);
+        assertNull(avlTree.search(3));
+
+        // Удаляем узел с ключом 5 (корень)
+        avlTree.delete(5);
+        assertNull(avlTree.search(5));
+
+        // Попытка удалить несуществующий узел
+        avlTree.delete(10);
+        assertNull(avlTree.search(10));
+    }
 }
 
