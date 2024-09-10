@@ -1,4 +1,3 @@
-/* @author Kuvykin N.D CMC-21 класс словарь на основе AVL tree */
 class AVLTreeDictionary<K extends Comparable<K>, V> {
 
     private class Node {

@@ -10,7 +10,8 @@ public class HashTable<K, V> {
     private int size;
 
     // Внутренний класс для представления записи в хэш-таблице
-    private static class Entry<K, V> {
+    private class Entry<K, V> {
+        // так как класс вложенный, то у внешнего класса hashtable есть право получать доступ к закрытым членам класса Entry
         K key;
         V value;
 

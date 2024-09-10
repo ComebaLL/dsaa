@@ -1,4 +1,3 @@
-/* @author Kuvykin N.D CMC-21 тесты к классу словарь на основе AVL tree */
 public class AVLTreeDictionaryTest {
     public static void main(String[] args) {
         AVLTreeDictionary<Integer, String> dictionary = new AVLTreeDictionary<>();
