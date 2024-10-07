@@ -1,0 +1,50 @@
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.items.pop()
+        return None
+
+    def peek(self):
+        if not self.is_empty():
+            return self.items[-1]
+        return None
+
+    def size(self):
+        return len(self.items)
+
+
+def convert_number(number, base):
+    digits = "0123456789ABCDEF"  # для представления цифр в основаниях до 16
+    stack = Stack()
+
+    # Преобразование числа в нужную систему счисления
+    while number > 0:
+        remainder = number % base
+        stack.push(remainder)  # остаток от деления кладем в стек
+        number = number // base  # уменьшаем число, деля его на основание
+
+    # Извлекаем цифры из стека и собираем строку
+    converted_number = ""
+    while not stack.is_empty():
+        converted_number += digits[stack.pop()]  # извлекаем цифры в обратном порядке
+
+    return converted_number
+
+# Ввод числа и основания
+num = int(input("Введите число: "))
+base = int(input("Введите основание (2-16): "))
+
+if base < 2 or base > 16:
+    print("Основание должно быть в пределах от 2 до 16.")
+else:
+    result = convert_number(num, base)
+    print(f"Число в системе счисления с основанием {base}: {result}")
